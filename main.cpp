@@ -10,7 +10,7 @@ using std::sort;
 
 int main()
 {
-  cout << "Edgar Marko Trono Programming Test" << endl;
+  cout << "Edgar Marko Trono STE Programming Test" << endl;
   /*
     Generate random numbers
   */
