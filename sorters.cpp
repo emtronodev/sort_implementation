@@ -22,9 +22,9 @@ void program_a(int min, int max, int size, string filename) {
   /*
     Count the number of times each integer appears in the random number array
   */
-  int * count_arr = new int[max - min + 1];
-  for (int i = min; i <= max; i++) {
-    count_arr[i - min] = std::count (int_arr, int_arr + size, i);
+  int * count_arr = new int[max - min + 1]();
+  for (int i = 0; i < size; i++) {
+    count_arr[int_arr[i]]++;
   }
 
   /*

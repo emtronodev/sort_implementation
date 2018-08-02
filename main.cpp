@@ -6,13 +6,15 @@ using std::cout;
 using std::endl;
 using std::string;
 /* Define number of values here */
-#define ARRAY_SIZE 10000
+#define ARRAY_SIZE 10000000
 /* Define min and max limits of integers here */
 #define INT_MINIMUM 0
 #define INT_MAXIMUM 99999
 /* Define min and max limits of doubles here */
 #define DBL_MINIMUM 0.0
 #define DBL_MAXIMUM 1.0
+/* Define number of significant digits for Program B here */
+#define SIG_DIGITS 5
 
 void a_sort(string filename) {
   program_a(INT_MINIMUM, INT_MAXIMUM, ARRAY_SIZE, filename);
