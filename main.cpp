@@ -25,8 +25,8 @@ void b_sort(string filename) {
 }
 
 void c_sort(string filename) {
-  program_c_min_max(DBL_MINIMUM, DBL_MAXIMUM, ARRAY_SIZE, filename);
-//  program_c_quick(DBL_MINIMUM, DBL_MAXIMUM, ARRAY_SIZE, filename);
+//  program_c_min_max(DBL_MINIMUM, DBL_MAXIMUM, ARRAY_SIZE, filename);
+  program_c_quick(DBL_MINIMUM, DBL_MAXIMUM, ARRAY_SIZE, filename);
 }
 
 void std_sort(string filename) {
