@@ -20,9 +20,10 @@ void swap(double *a, double *b) {
 }
 
 /*
-  Because we are dealing with integers here,
-  just count the number of times each integer appears,
-  then set the value of that many elements to that integer.
+  Because we are dealing with a range integers
+  that is orders of magnitude smaller than the number of elements here,
+  just count the number of times each integer appears in the large array,
+  then set the value of that many elements to that integer in the output.
 */
 void program_a(int min, int max, int size, string filename) {
   /*
@@ -72,6 +73,12 @@ void program_a(int min, int max, int size, string filename) {
   cout << "Done!" << endl;
 }
 
+/*
+  Passes through the array and find the min and max values
+  Puts the min value in the first element and the max value in the last element
+  Decrement the range to pass (start index + 1, last index - 1)
+  Repeat
+*/
 void sort_min_max(double double_arr[], int start, int end) {
   double tmp = 0.0;
   while (start < end) {
@@ -117,7 +124,8 @@ void program_c_min_max(double min, double max, int size, string filename) {
 }
 
 /*
-  Quicksort implementation
+  Because min_max_sort was too slow for 10M elements,
+  it's faster to use the existing Quicksort implementation
   Reference:
     https://medium.com/human-in-a-machine-world/quicksort-the-best-sorting-algorithm-6ab461b5a9d0
 */
