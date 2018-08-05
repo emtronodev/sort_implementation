@@ -1,15 +1,14 @@
 #include<random>
+#include "random.h"
 
-int random_int(int min, int max) {
-  std::random_device rd_int;
-  std::mt19937 engine_int(rd_int());
-  std::uniform_int_distribution<int> dist_int(min,max);
+int random_int(int seed) {
+  std::mt19937 engine_int(seed);
+  std::uniform_int_distribution<int> dist_int(INT_MINIMUM,INT_MAXIMUM);
   return dist_int(engine_int);
 }
 
-double random_double(double min, double max) {
-  std::random_device rd_double;
-  std::mt19937 engine_double(rd_double());
-  std::uniform_real_distribution<double> dist_double(min, max);
+double random_double(int seed) {
+  std::mt19937 engine_double(seed);
+  std::uniform_real_distribution<double> dist_double(DBL_MINIMUM, DBL_MAXIMUM);
   return dist_double(engine_double);
 }

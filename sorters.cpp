@@ -2,12 +2,14 @@
 #include <iostream>
 #include <limits>
 #include <math.h>
+#include <random>
 #include <string>
 #include "output.h"
 #include "random.h"
 using std::cout;
 using std::endl;
 using std::sort;
+using std::random_device;
 using std::string;
 
 /*
@@ -25,20 +27,23 @@ void swap(double *a, double *b) {
   just count the number of times each integer appears in the large array,
   then set the value of that many elements to that integer in the output.
 */
-void program_a(int min, int max, int size, string filename) {
+void program_a(int size, string filename) {
   /*
     Generate random numbers here
   */
   cout << "Generating random numbers..." << endl;
   int * int_arr = new int[size];
   for (int i = 0; i < size; i++) {
-    int_arr[i] = random_int(min, max);
+    random_device rd;
+    int_arr[i] = random_int(rd());
   }
   cout << "Done!" << endl;
 
   /*
     Count the number of times each integer appears in the random number array
   */
+  int min = INT_MINIMUM;
+  int max = INT_MAXIMUM;
   cout << "Sorting..." << endl;
   int * count_arr = new int[max - min + 1]();
   for (int i = 0; i < size; i++) {
@@ -98,14 +103,15 @@ void sort_min_max(double double_arr[], int start, int end) {
   }
 }
 
-void program_c_min_max(double min, double max, int size, string filename) {
+void program_c_min_max(int size, string filename) {
   /*
     Generate random floating points here
   */
   cout << "Generating random floating points..." << endl;
   double * double_arr = new double[size];
   for (int i = 0; i < size; i++) {
-    double_arr[i] = random_double(min, max);
+    random_device rd;
+    double_arr[i] = random_double(rd());
   }
   cout << "Done!" << endl;
   cout << "Sorting..." << endl;
@@ -166,14 +172,15 @@ void quicksort(double arr[], int l, int r)
     quicksort(arr, cnt, r);   // Recursively sort the right side of pivot
 }
 
-void program_c_quick(double min, double max, int size, string filename) {
+void program_c_quick(int size, string filename) {
   /*
     Generate random floating points here
   */
   cout << "Generating random floating points..." << endl;
   double * double_arr = new double[size];
   for (int i = 0; i < size; i++) {
-    double_arr[i] = random_double(min, max);
+    random_device rd;
+    double_arr[i] = random_double(rd());
   }
   cout << "Done!" << endl;
 
@@ -196,14 +203,15 @@ void program_c_quick(double min, double max, int size, string filename) {
 /*
   std::sort
 */
-void default_sort(int min, int max, int size, string filename) {
+void default_sort(int size, string filename) {
   /*
     Generate random numbers here
   */
   cout << "Generating random numbers..." << endl;
   int * int_arr = new int[size];
   for (int i = 0; i < size; i++) {
-    int_arr[i] = random_int(min,max);
+    std::random_device rd;
+    int_arr[i] = random_int(rd());
   }
   cout << "Done!" << endl;
 
