@@ -25,41 +25,44 @@ void swap(double *a, double *b) {
 
 /*
   Because min_max_sort was too slow for 10M elements,
-  The following approach is faster
-  1. Choose a value in the array
-  2. Iterate through the array
-    if
+  The following well-known approach is faster:
+  1. Choose any value v in the array
+  2. iterate through the array
+    if an element is less than or equal the chosen v,
+    swap it with the leftmost element that is greater than v
+  3. After iterating through the array, there will be a split
+   marked by the position of v
+  4. All elements to the left of v are smaller, elements to the right are larger
+  5. Recursively sort the left and right sides of v,
+    choosing new v's for the smaller arrays
 */
-void floatsort(double arr[], int l, int r)
+void quicksort(double arr[], int min, int max)
 {
-
-    // Choose a value, in this case the last element
-    double pivot = arr[r];
-
-    // Index indicating the "split" between elements smaller than pivot and
-    // elements greater than pivot
-    int cnt = l;
-
-    // Traverse through array from l to r
-    for (int i = l; i <= r; i++)
-    {
-        // If an element less than or equal to the pivot is found...
-        if (arr[i] <= pivot)
-        {
-            // Then swap arr[cnt] and arr[i] so that the smaller element arr[i]
-            // is to the left of all elements greater than pivot
-            swap(&arr[cnt], &arr[i]);
-
-            // Make sure to increment cnt so we can keep track of what to swap
-            // arr[i] with
-            cnt++;
-        }
+    // If the array length is 1, return
+    if (min >= max) {
+      return;
     }
 
-    // NOTE: cnt is currently at one plus the pivot's index
-    // (Hence, the cnt-2 when recursively sorting the left side of pivot)
-    floatsort(arr, l, cnt-2); // Recursively sort the left side of pivot
-    floatsort(arr, cnt, r);   // Recursively sort the right side of pivot
+    // We will choose any v (last element for convenience)
+    double v = arr[max];
+
+    // Tracks the leftmost element that is greater than v
+    int track = min;
+
+    for (int i = min; i <= max; i++)
+    {
+        // When an element which is less or equal to v is found
+        if (arr[i] <= v)
+        {
+            // Swap the element less than v, with the leftmost element greater than v
+            swap(&arr[track], &arr[i]);
+
+            // Increment the tracker
+            track++;
+        }
+    }
+    quicksort(arr, min, track-2);
+    quicksort(arr, track, max);
 }
 
 /*
@@ -185,7 +188,7 @@ void program_c(int size, string filename) {
   cout << "Done!" << endl;
 
   cout << "Sorting..." << endl;
-  floatsort(double_arr, 0, size - 1);
+  quicksort(double_arr, 0, size - 1);
   cout << "Done!" << endl;
 
   /*
