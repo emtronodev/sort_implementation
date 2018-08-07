@@ -15,12 +15,12 @@ void a_sort(string filename) {
 }
 
 void b_sort(string filename) {
-//  program_b(DBL_MINIMUM, DBL_MAXIMUM, SIG_DIGITS, ARRAY_SIZE, filename);
+  program_b(ARRAY_SIZE, filename);
 }
 
 void c_sort(string filename) {
 //  program_c_min_max(ARRAY_SIZE, filename);
-  program_c_quick(ARRAY_SIZE, filename);
+  program_c(ARRAY_SIZE, filename);
 }
 
 void std_sort(string filename) {
