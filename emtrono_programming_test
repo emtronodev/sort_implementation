@@ -1,0 +1,85 @@
+Name: Edgar Marko Trono
+-------
+Problem
+A) Given a random number generator RandomNumber(int seed) that returns an integer per call in the range of [0, 100,000), write a program in C++ that (1) generates 10,000,000 values, (2) sorts them in the increasing order, and (3) outputs the result to a file. Keep in mind the runtime performance of the program when programming.
+
+B) Rewrite the program in A) assuming RandomNumber(int seed) returns a floating point number in the range of [0.0, 1.0) instead. Please note, however, that the program requires the sorting accuracy of 5 significant digits only.
+
+C) Extend the program in B) to ensure the complete sorting accuracy.
+-------
+Files:
+compile.sh - compile script (compiled using clang++)
+cleanup.sh - cleanup script
+main.cpp - Main program
+output.cpp - Functions that write sorted output to file
+random.cpp - Functions that generates random integers/floating points
+sorters.cpp - Sorting functions
+test_results - Execution results and tests
+-------
+Solutions
+-------
+A.
+-------
+Code:
+・program_a()
+sorters.cpp>lines 80-129
+-------
+Solution summary:
+Because we are dealing with a range of integers (0-99999)
+that is orders of magnitude smaller than the number of elements (10M) here,
+just count the number of times each integer appears in the large array,
+then set the value of that many elements to that integer in the output.
+-------
+B.
+-------
+Code:
+・program_b()
+sorters.cpp>lines 139-180
+
+・output_int_format()
+output.cpp>lines 17-23
+-------
+Solution summary:
+Because of the 5-decimal place limit, the sorter implementation of Program B is the same as Program A
+1. Generate 10M floating points
+2. Multiply 10K to each floating point, truncate, then convert to integer type
+3. Use the same counting method in Program A to sort the integers
+4. Format the output so the integers will look like floats (prepend '0.' and leading zeros)
+-------
+C.
+-------
+code:
+・program_c()
+sorters.cpp>lines 184-210
+
+・doublesort()
+sorters.cpp>lines 39-72
+
+※Initial Solution※
+・sort_min_max()
+sorters.cpp>lines 253-270
+-------
+Solution summary:
+Since this problem deals with real numbers (infinite range), the counting approach will not work here.
+At first I implemented a sorting function sort_min_max that works as follows:
+1. Traverse the array, look for the min and max values
+2. Swap the min value to the leftmost index
+3. Swap the max value to the rightmost index
+4. Decrement the array size 1 from the left and right
+5. Repeat
+
+The above approach however is too slow for large arrays (10M elements)
+so the approach below is better:
+
+The idea is to choose an reference element, and move elements with smaller
+values to the left of the reference, and larger ones to the right.
+When this is done recursively, the array will be sorted
+(i.e. all elements have only lesser values to the left, and larger values to the right)
+
+1. Set the value of the last element in the array as a reference value V
+2. Mark the first index as the divide in the array (i.e. arr[1])
+3. Iterate through the array
+4. If the value an element is less than or equal to V, switch it with the element indexed by the divide
+and increment the index of the divide by one (i.e. this moves the divide to the right)
+5. When the last element is reached it will also be moved to the left of the divide
+6. Recursively run the sort on the subarrays on the left and right of the divide until the whole array is sorted

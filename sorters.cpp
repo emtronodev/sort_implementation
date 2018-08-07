@@ -13,56 +13,60 @@ using std::random_device;
 using std::string;
 using std::numeric_limits;
 
-
 /*
   Swap array elements
 */
-void swap(double *a, double *b) {
-    double temp = *a;
-    *a = *b;
-    *b = temp;
+void swap(double *dbla, double *dblb) {
+    double temp = *dbla;
+    *dbla = *dblb;
+    *dblb = temp;
 }
 
 /*
-  Because min_max_sort was too slow for 10M elements,
-  The following well-known approach is faster:
-  1. Choose any value v in the array
-  2. iterate through the array
-    if an element is less than or equal the chosen v,
-    swap it with the leftmost element that is greater than v
-  3. After iterating through the array, there will be a split
-   marked by the position of v
-  4. All elements to the left of v are smaller, elements to the right are larger
-  5. Recursively sort the left and right sides of v,
-    choosing new v's for the smaller arrays
+  Because we are now dealing with real numbers, the counting approach will not work (inifinite range)
+  At first I tried the min_max approach, but it was too slow.
+  The following approach is faster:
+  1. Set the value of the last element in the array as a reference value V
+  2. Mark the first index as the divide in the array (i.e. arr[1])
+  3. Iterate through the array
+  4. If the value an element is less than or equal to V, switch it with the element indexed by the divide
+  and increment the index of the divide by one (i.e. this moves the divide to the right)
+  5. When the last element is reached it will also be moved to the left of the divide
+  6. Recursively run the sort on the subarrays on the left and right of the divide until the whole array is sorted
 */
-void quicksort(double arr[], int min, int max)
+void doublesort(double arr[], int min, int max)
 {
     // If the array length is 1, return
     if (min >= max) {
       return;
     }
-
     // We will choose any v (last element for convenience)
     double v = arr[max];
-
-    // Tracks the leftmost element that is greater than v
+    // Tracks the position of the divide
     int track = min;
-
     for (int i = min; i <= max; i++)
     {
         // When an element which is less or equal to v is found
         if (arr[i] <= v)
         {
-            // Swap the element less than v, with the leftmost element greater than v
+            // Swap the element less than v, with the with the element at the divide
             swap(&arr[track], &arr[i]);
-
-            // Increment the tracker
+            // Increment the index of the divide
             track++;
+            /*
+              When i = max, (the index of v), it will be swapped with
+              the current element at the divide as well
+            */
         }
     }
-    quicksort(arr, min, track-2);
-    quicksort(arr, track, max);
+    /*
+      At this point, the divide is at the index of v + 1
+      So the values less than v will be in [min,track - 2]
+      And the values greater than v will be in [track, max].
+      We Recursively run the sort for these two subarrays
+    */
+    doublesort(arr, track, max);
+    doublesort(arr, min, track - 2);
 }
 
 /*
@@ -188,7 +192,7 @@ void program_c(int size, string filename) {
   cout << "Done!" << endl;
 
   cout << "Sorting..." << endl;
-  quicksort(double_arr, 0, size - 1);
+  doublesort(double_arr, 0, size - 1);
   cout << "Done!" << endl;
 
   /*
